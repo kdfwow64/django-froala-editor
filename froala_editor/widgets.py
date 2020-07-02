@@ -7,7 +7,7 @@ from . import PLUGINS, PLUGINS_WITH_CSS, THIRD_PARTY, THIRD_PARTY_WITH_CSS
 try:
     from django.urls import NoReverseMatch, reverse
 except ImportError:
-    from django.core.urlresolvers import reverse, NoReverseMatch
+    from django.urls import reverse, NoReverseMatch
 
 
 class FroalaEditor(widgets.Textarea):
@@ -79,7 +79,14 @@ class FroalaEditor(widgets.Textarea):
             'all': ('froala_editor/css/froala_editor.min.css', 'froala_editor/css/froala_style.min.css',
                     'froala_editor/css/froala-django.css')
         }
-        js = ('froala_editor/js/froala_editor.min.js', 'froala_editor/js/froala-django.js',)
+        js = (
+            'froala_editor/js/froala_editor.min.js',
+            'froala_editor/js/froala-django.js',
+            'froala_editor/js/third_party/embedly.min.js',
+            'froala_editor/js/third_party/spell_checker.min.js',
+            'froala_editor/js/third_party/font_awesome.min.js',
+            'froala_editor/js/third_party/image_tui.min.js'
+        )
 
         if self.theme:
             css['all'] += ('froala_editor/css/themes/' + self.theme + '.min.css',)
