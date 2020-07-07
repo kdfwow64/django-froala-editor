@@ -46,7 +46,10 @@ def image_upload(request):
         path = storage.save(os.path.join(upload_to, unique_filename(the_file.name)), the_file)
         # link = request.build_absolute_uri(storage.url(path))
 
-        link = 'https://' + getattr(settings, 'AWS_STORAGE_BUCKET_NAME', 'sengkuyung-dev') + '.s3-' + getattr(settings, 'AWS_S3_REGION_NAME',
+        if getattr(settings, 'STATICFILES_STORAGE', '') == 'whitenoise.storage.CompressedManifestStaticFilesStorage':
+            link = request.build_absolute_uri(storage.url(path))
+        else:
+            link = 'https://' + getattr(settings, 'AWS_STORAGE_BUCKET_NAME', 'sengkuyung-dev') + '.s3-' + getattr(settings, 'AWS_S3_REGION_NAME',
                                                                                                               'ap-southeast-1') + '.amazonaws.com' + path
         # cloudfront_domain = getattr(settings, 'CLOUDFRONT_DOMAIN', '')
         # if cloudfront_domain == '':
@@ -67,6 +70,9 @@ def file_upload(request):
 
         path = storage.save(os.path.join(upload_to, unique_filename(the_file.name)), the_file)
         # link = storage.url(path)
-        link = 'https://' + getattr(settings, 'AWS_STORAGE_BUCKET_NAME', 'sengkuyung-dev') + '.s3-' + getattr(settings, 'AWS_S3_REGION_NAME',
+        if getattr(settings, 'STATICFILES_STORAGE', '') == 'whitenoise.storage.CompressedManifestStaticFilesStorage':
+            link = storage.url(path)
+        else:
+            link = 'https://' + getattr(settings, 'AWS_STORAGE_BUCKET_NAME', 'sengkuyung-dev') + '.s3-' + getattr(settings, 'AWS_S3_REGION_NAME',
                                                                                                               'ap-southeast-1') + '.amazonaws.com' + path
         return HttpResponse(json.dumps({'link': link}), content_type="application/json")
