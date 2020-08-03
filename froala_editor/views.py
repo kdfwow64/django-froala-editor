@@ -5,16 +5,18 @@ from django.conf import settings
 import os
 from django.utils.translation import ugettext_lazy as _
 from django.utils.module_loading import import_string
+from django.core.files.storage import FileSystemStorage
 
 import uuid
 
 
 # Allow for a custom storage backend defined in settings.
-def get_storage_class():
-    return import_string(getattr(settings, 'FROALA_STORAGE_BACKEND', 'django.core.files.storage.DefaultStorage'))()
+# def get_storage_class():
+#     return import_string(getattr(settings, 'FROALA_STORAGE_BACKEND', 'django.core.files.storage.DefaultStorage'))()
 
 
-storage = get_storage_class()
+storage = FileSystemStorage(location=settings.MEDIA_ROOT)
+
 
 def unique_filename(name):
     ext = name.split('.')[-1]
