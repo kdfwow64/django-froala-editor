@@ -47,14 +47,16 @@ def image_upload(request):
         upload_to = getattr(settings, 'FROALA_UPLOAD_PATH', 'uploads/froala_editor/')
         upload_to = upload_to + 'images/'
 
-        path = storage.save(os.path.join(upload_to, unique_filename(the_file.name)), the_file)
+        # path = storage.save(os.path.join(upload_to, unique_filename(the_file.name)), the_file)
+        path = storage.save(os.path.join(upload_to, the_file.name), the_file)
+
         # link = request.build_absolute_uri(storage.url(path))
 
         if getattr(settings, 'STATICFILES_STORAGE', '') == 'whitenoise.storage.CompressedManifestStaticFilesStorage':
             link = request.build_absolute_uri(storage.url(path))
         else:
             link = 'https://' + getattr(settings, 'AWS_STORAGE_BUCKET_NAME', 'sengkuyung-dev') + '.s3-' + getattr(settings, 'AWS_S3_REGION_NAME',
-                                                                                                              'ap-southeast-1') + '.amazonaws.com' + path
+                                                                                                              'ap-southeast-1') + '.amazonaws.com/' + path
         # cloudfront_domain = getattr(settings, 'CLOUDFRONT_DOMAIN', '')
         # if cloudfront_domain == '':
         #     link = 'https://' + getattr(settings, 'AWS_STORAGE_BUCKET_NAME', 'sengkuyung-dev') + '.s3-' + getattr(settings, 'AWS_S3_REGION_NAME',
@@ -72,7 +74,9 @@ def file_upload(request):
         upload_to = getattr(settings, 'FROALA_UPLOAD_PATH', 'uploads/froala_editor/')
         upload_to = upload_to + 'files/'
 
-        path = storage.save(os.path.join(upload_to, unique_filename(the_file.name)), the_file)
+        # path = storage.save(os.path.join(upload_to, unique_filename(the_file.name)), the_file)
+        path = storage.save(os.path.join(upload_to, the_file.name), the_file)
+
         # link = storage.url(path)
         if getattr(settings, 'STATICFILES_STORAGE', '') == 'whitenoise.storage.CompressedManifestStaticFilesStorage':
             link = storage.url(path)
