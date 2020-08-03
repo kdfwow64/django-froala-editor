@@ -14,8 +14,10 @@ import uuid
 # def get_storage_class():
 #     return import_string(getattr(settings, 'FROALA_STORAGE_BACKEND', 'django.core.files.storage.DefaultStorage'))()
 
-
-storage = FileSystemStorage(location=settings.MEDIA_ROOT)
+if settings.STATICFILES_STORAGE == 'whitenoise.storage.CompressedManifestStaticFilesStorage':
+    storage = FileSystemStorage(location=settings.MEDIA_ROOT)
+else:
+    storage = import_string(getattr(settings, 'FROALA_STORAGE_BACKEND', 'django.core.files.storage.DefaultStorage'))()
 
 
 def unique_filename(name):
