@@ -82,5 +82,5 @@ def file_upload(request):
             link = storage.url(path)
         else:
             link = 'https://' + getattr(settings, 'AWS_STORAGE_BUCKET_NAME', 'sengkuyung-dev') + '.s3-' + getattr(settings, 'AWS_S3_REGION_NAME',
-                                                                                                              'ap-southeast-1') + '.amazonaws.com' + path
+                                                                                                              'ap-southeast-1') + '.amazonaws.com/' + path
         return HttpResponse(json.dumps({'link': link}), content_type="application/json")
